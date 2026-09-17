@@ -31,12 +31,15 @@ export function TaskModal({
   const descriptionFieldId = useId();
   const statusFieldId = useId();
   const priorityFieldId = useId();
+  const dueDateFieldId = useId();
+  const dueDateHintId = useId();
   const errorId = useId();
   const titleInputRef = useFocusOnOpen<HTMLInputElement>(open);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState<TaskStatus>(defaultStatus);
   const [priority, setPriority] = useState<TaskPriority>("medium");
+  const [dueDate, setDueDate] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -48,6 +51,7 @@ export function TaskModal({
     setDescription(task?.description ?? "");
     setStatus(task?.status ?? defaultStatus);
     setPriority(task?.priority ?? "medium");
+    setDueDate(task?.dueDate ?? "");
     setError("");
   }, [open, task, defaultStatus]);
 
@@ -74,6 +78,7 @@ export function TaskModal({
       description: description.trim(),
       status,
       priority,
+      dueDate: dueDate || undefined,
     });
   };
 
@@ -162,6 +167,19 @@ export function TaskModal({
                 ))}
               </select>
             </div>
+          </div>
+          <div className="field">
+            <label htmlFor={dueDateFieldId}>Due date</label>
+            <input
+              id={dueDateFieldId}
+              type="date"
+              value={dueDate}
+              onChange={(event) => setDueDate(event.target.value)}
+              aria-describedby={dueDateHintId}
+            />
+            <p id={dueDateHintId} className="field__hint">
+              Optional. Leave empty if the task has no deadline.
+            </p>
           </div>
           <div className="modal__actions">
             <button type="button" className="button button--ghost" onClick={onClose}>

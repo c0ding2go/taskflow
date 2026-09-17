@@ -153,7 +153,7 @@ p {
 
 .stats-bar {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 0.75rem;
 }
 
@@ -181,6 +181,11 @@ p {
 .stat-card__icon--warning {
   background: rgb(224 176 74 / 0.12);
   color: var(--warning);
+}
+
+.stat-card__icon--danger {
+  background: var(--danger-soft);
+  color: var(--danger);
 }
 
 .stat-card__label,
@@ -228,14 +233,14 @@ p {
   padding: 0.7rem 0.85rem 0.7rem 2.4rem;
 }
 
-.filters__priority {
+.filters__control {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
   min-width: 180px;
 }
 
-.filters__priority label,
+.filters__control label,
 .field label {
   color: var(--text-muted);
   font-size: 0.8rem;
@@ -386,6 +391,16 @@ button:focus-visible {
   background: var(--bg-surface);
 }
 
+.task-card--overdue {
+  border-color: rgb(239 110 118 / 0.45);
+  box-shadow: inset 3px 0 0 var(--danger);
+}
+
+.task-card--due-soon {
+  border-color: rgb(224 176 74 / 0.4);
+  box-shadow: inset 3px 0 0 var(--warning);
+}
+
 .task-card__header {
   display: flex;
   align-items: flex-start;
@@ -403,12 +418,30 @@ button:focus-visible {
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
 }
 
 .task-card__description--empty {
   font-style: italic;
   color: var(--text-subtle);
+}
+
+.due-date-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 650;
+}
+
+.due-date-badge--overdue {
+  color: var(--danger);
+}
+
+.due-date-badge--due-soon {
+  color: var(--warning);
 }
 
 .task-card__actions {
@@ -542,11 +575,22 @@ button:focus-visible {
   font-size: 0.8rem;
 }
 
+.field__hint {
+  color: var(--text-subtle);
+  font-size: 0.75rem;
+}
+
 .modal__actions {
   display: flex;
   justify-content: flex-end;
   gap: 0.6rem;
   margin-top: 0.4rem;
+}
+
+@media (max-width: 1280px) {
+  .stats-bar {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 1100px) {
@@ -584,7 +628,7 @@ button:focus-visible {
     grid-template-columns: 1fr;
   }
 
-  .filters__priority,
+  .filters__control,
   .button {
     width: 100%;
   }

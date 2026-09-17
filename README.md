@@ -8,9 +8,10 @@ TaskFlow is a production-ready Kanban workspace for organizing work across **Bac
 - Create, edit, and delete tasks from accessible dialogs
 - Move cards between columns with keyboard-friendly controls
 - Low, Medium, and High priority badges
+- Optional due dates with overdue and due-soon highlighting on cards
 - Text search across titles and descriptions
-- Priority filtering with a one-click reset
-- Dashboard statistics for totals, column counts, high-priority work, and completion rate
+- Priority and due-date filtering with a one-click reset
+- Dashboard statistics for totals, column counts, high-priority work, overdue tasks, and completion rate
 - Persistent storage in `localStorage`
 - Confirmation before a task is deleted
 - Empty states for unused columns and unmatched filters
@@ -43,7 +44,7 @@ The UI is split into focused modules:
 - `src/components` — board, cards, filters, dialogs, and dashboard
 - `src/context` — task state, persistence, and board actions
 - `src/hooks` — filter state, focus management, and context access
-- `src/utils` — filtering, statistics, reducer logic, and storage
+- `src/utils` — filtering, due dates, statistics, reducer logic, and storage
 - `src/types` — shared TypeScript contracts
 - `src/data` — column definitions and sample tasks
 
@@ -53,8 +54,9 @@ Tasks are stored under the `taskflow.tasks` key. If that key is missing, TaskFlo
 
 Vitest and React Testing Library cover the important board logic:
 
-- search and priority filtering
-- dashboard statistics
+- search, priority, and due-date filtering
+- dashboard statistics, including overdue work
+- due-date parsing, overdue rules, and deadline labels
 - reducer actions for create, update, move, and delete
 - context persistence against `localStorage`
 

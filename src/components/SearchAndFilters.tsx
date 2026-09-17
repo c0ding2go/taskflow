@@ -1,10 +1,11 @@
 import { Search } from "lucide-react";
-import type { TaskFilters, TaskPriority } from "../types/task";
+import type { DueDateFilter, TaskFilters, TaskPriority } from "../types/task";
 
 interface SearchAndFiltersProps {
   filters: TaskFilters;
   onSearchChange: (value: string) => void;
   onPriorityChange: (value: TaskPriority | "all") => void;
+  onDueDateChange: (value: DueDateFilter) => void;
   onReset: () => void;
   hasActiveFilters: boolean;
 }
@@ -13,6 +14,7 @@ export function SearchAndFilters({
   filters,
   onSearchChange,
   onPriorityChange,
+  onDueDateChange,
   onReset,
   hasActiveFilters,
 }: SearchAndFiltersProps) {
@@ -32,7 +34,7 @@ export function SearchAndFilters({
           autoComplete="off"
         />
       </div>
-      <div className="filters__priority">
+      <div className="filters__control">
         <label htmlFor="priority-filter">Priority</label>
         <select
           id="priority-filter"
@@ -45,6 +47,22 @@ export function SearchAndFilters({
           <option value="high">High</option>
           <option value="medium">Medium</option>
           <option value="low">Low</option>
+        </select>
+      </div>
+      <div className="filters__control">
+        <label htmlFor="due-date-filter">Due date</label>
+        <select
+          id="due-date-filter"
+          value={filters.dueDate}
+          onChange={(event) =>
+            onDueDateChange(event.target.value as DueDateFilter)
+          }
+        >
+          <option value="all">All due dates</option>
+          <option value="overdue">Overdue</option>
+          <option value="today">Due today</option>
+          <option value="this-week">Due this week</option>
+          <option value="none">No due date</option>
         </select>
       </div>
       {hasActiveFilters ? (

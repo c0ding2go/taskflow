@@ -1,6 +1,8 @@
 import { ChevronLeft, ChevronRight, Pencil, Trash2 } from "lucide-react";
 import { getAdjacentStatus, getColumn } from "../data/columns";
 import type { Task } from "../types/task";
+import { getDueDateUrgency } from "../utils/dueDate";
+import { DueDateBadge } from "./DueDateBadge";
 import { PriorityBadge } from "./PriorityBadge";
 
 interface TaskCardProps {
@@ -13,9 +15,17 @@ interface TaskCardProps {
 export function TaskCard({ task, onEdit, onDelete, onMove }: TaskCardProps) {
   const previousStatus = getAdjacentStatus(task.status, -1);
   const nextStatus = getAdjacentStatus(task.status, 1);
+  const urgency = getDueDateUrgency(task);
+  const cardClassName = [
+    "task-card",
+    urgency === "overdue" ? "task-card--overdue" : "",
+    urgency === "due-soon" ? "task-card--due-soon" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
-    <article className="task-card">
+    <article className={cardClassName}>
       <header className="task-card__header">
         <h3 className="task-card__title">{task.title}</h3>
         <PriorityBadge priority={task.priority} />
@@ -27,6 +37,7 @@ export function TaskCard({ task, onEdit, onDelete, onMove }: TaskCardProps) {
           No description
         </p>
       )}
+      <DueDateBadge task={task} />
       <footer className="task-card__actions">
         <div className="task-card__move">
           <button

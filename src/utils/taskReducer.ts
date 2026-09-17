@@ -1,4 +1,5 @@
 import type { Task, TaskDraft, TaskStatus } from "../types/task";
+import { normalizeDueDate } from "./dueDate";
 
 export type TaskAction =
   | { type: "add"; task: Task }
@@ -7,13 +8,20 @@ export type TaskAction =
   | { type: "move"; id: string; status: TaskStatus };
 
 export function createTask(draft: TaskDraft, id: string): Task {
-  return {
+  const task: Task = {
     id,
     title: draft.title.trim(),
     description: draft.description.trim(),
     status: draft.status,
     priority: draft.priority,
   };
+
+  const dueDate = normalizeDueDate(draft.dueDate);
+  if (dueDate) {
+    task.dueDate = dueDate;
+  }
+
+  return task;
 }
 
 export function taskReducer(state: Task[], action: TaskAction): Task[] {
@@ -21,9 +29,25 @@ export function taskReducer(state: Task[], action: TaskAction): Task[] {
     case "add":
       return [...state, action.task];
     case "update":
-      return state.map((task) =>
-        task.id === action.id ? { ...task, ...action.updates } : task,
-      );
+      return state.map((task) => {
+        if (task.id !== action.id) {
+          return task;
+        }
+
+        const { dueDate, ...rest } = action.updates;
+        const next: Task = { ...task, ...rest };
+
+        if ("dueDate" in action.updates) {
+          const normalized = normalizeDueDate(dueDate);
+          if (normalized) {
+            next.dueDate = normalized;
+          } else {
+            delete next.dueDate;
+          }
+        }
+
+        return next;
+      });
     case "delete":
       return state.filter((task) => task.id !== action.id);
     case "move":

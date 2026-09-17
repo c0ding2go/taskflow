@@ -20,9 +20,11 @@ function Workspace() {
     hasActiveFilters,
     setSearch,
     setPriority,
+    setDueDate,
     resetFilters,
+    now,
   } = useTaskFilters(tasks);
-  const stats = useMemo(() => getTaskStats(tasks), [tasks]);
+  const stats = useMemo(() => getTaskStats(tasks, now), [tasks, now]);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
@@ -74,6 +76,7 @@ function Workspace() {
           filters={filters}
           onSearchChange={setSearch}
           onPriorityChange={setPriority}
+          onDueDateChange={setDueDate}
           onReset={resetFilters}
           hasActiveFilters={hasActiveFilters}
         />

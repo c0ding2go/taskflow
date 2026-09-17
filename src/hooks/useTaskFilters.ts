@@ -1,18 +1,23 @@
 import { useMemo, useState } from "react";
-import type { Task, TaskFilters, TaskPriority } from "../types/task";
+import type { DueDateFilter, Task, TaskFilters, TaskPriority } from "../types/task";
+import { parseISODate } from "../utils/dueDate";
 import { filterTasks } from "../utils/filters";
+import { useLocalCalendarDay } from "./useLocalCalendarDay";
 
 const DEFAULT_FILTERS: TaskFilters = {
   search: "",
   priority: "all",
+  dueDate: "all",
 };
 
 export function useTaskFilters(tasks: Task[]) {
   const [filters, setFilters] = useState<TaskFilters>(DEFAULT_FILTERS);
+  const today = useLocalCalendarDay();
+  const now = useMemo(() => parseISODate(today) ?? new Date(), [today]);
 
   const visibleTasks = useMemo(
-    () => filterTasks(tasks, filters),
-    [tasks, filters],
+    () => filterTasks(tasks, filters, now),
+    [tasks, filters, now],
   );
 
   const setSearch = (search: string) => {
@@ -23,19 +28,27 @@ export function useTaskFilters(tasks: Task[]) {
     setFilters((current) => ({ ...current, priority }));
   };
 
+  const setDueDate = (dueDate: DueDateFilter) => {
+    setFilters((current) => ({ ...current, dueDate }));
+  };
+
   const resetFilters = () => {
     setFilters(DEFAULT_FILTERS);
   };
 
   const hasActiveFilters =
-    filters.search.trim().length > 0 || filters.priority !== "all";
+    filters.search.trim().length > 0 ||
+    filters.priority !== "all" ||
+    filters.dueDate !== "all";
 
   return {
     filters,
     visibleTasks,
     hasActiveFilters,
+    now,
     setSearch,
     setPriority,
+    setDueDate,
     resetFilters,
   };
 }

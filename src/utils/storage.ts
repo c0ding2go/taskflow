@@ -1,4 +1,5 @@
 import type { Task, TaskPriority, TaskStatus } from "../types/task";
+import { parseISODate } from "./dueDate";
 
 export const STORAGE_KEY = "taskflow.tasks";
 
@@ -11,6 +12,10 @@ function isTaskStatus(value: unknown): value is TaskStatus {
 
 function isTaskPriority(value: unknown): value is TaskPriority {
   return typeof value === "string" && PRIORITIES.includes(value as TaskPriority);
+}
+
+function isOptionalDueDate(value: unknown): boolean {
+  return value === undefined || (typeof value === "string" && parseISODate(value) !== null);
 }
 
 function isTask(value: unknown): value is Task {
@@ -26,7 +31,8 @@ function isTask(value: unknown): value is Task {
     typeof candidate.title === "string" &&
     typeof candidate.description === "string" &&
     isTaskStatus(candidate.status) &&
-    isTaskPriority(candidate.priority)
+    isTaskPriority(candidate.priority) &&
+    isOptionalDueDate(candidate.dueDate)
   );
 }
 
