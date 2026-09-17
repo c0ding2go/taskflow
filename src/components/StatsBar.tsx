@@ -1,4 +1,11 @@
-import { AlertCircle, CheckCircle2, CircleDot, LayoutList, ListTodo } from "lucide-react";
+import {
+  AlertCircle,
+  CalendarClock,
+  CheckCircle2,
+  CircleDot,
+  LayoutList,
+  ListTodo,
+} from "lucide-react";
 import type { TaskFilters, TaskStats } from "../types/task";
 
 interface StatsBarProps {
@@ -9,7 +16,9 @@ interface StatsBarProps {
 
 export function StatsBar({ stats, visibleCount, filters }: StatsBarProps) {
   const isFiltered =
-    filters.search.trim().length > 0 || filters.priority !== "all";
+    filters.search.trim().length > 0 ||
+    filters.priority !== "all" ||
+    filters.dueDate !== "all";
 
   return (
     <section className="stats-bar" aria-label="Workspace statistics">
@@ -56,6 +65,15 @@ export function StatsBar({ stats, visibleCount, filters }: StatsBarProps) {
         <div>
           <p className="stat-card__label">High priority</p>
           <p className="stat-card__value">{stats.byPriority.high}</p>
+        </div>
+      </article>
+      <article className="stat-card">
+        <div className="stat-card__icon stat-card__icon--danger" aria-hidden="true">
+          <CalendarClock size={16} />
+        </div>
+        <div>
+          <p className="stat-card__label">Overdue</p>
+          <p className="stat-card__value">{stats.overdue}</p>
         </div>
       </article>
       <article className="stat-card">

@@ -51,7 +51,7 @@ export function Column({
             title={isFiltered ? "No matching tasks" : "No tasks yet"}
             description={
               isFiltered
-                ? "Nothing in this column matches the current search or priority filter."
+                ? "Nothing in this column matches the current search or filters."
                 : `Add a task to ${column.title} to start tracking work here.`
             }
           />

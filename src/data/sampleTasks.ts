@@ -1,4 +1,9 @@
 import type { Task } from "../types/task";
+import { addDays, toISODate, todayDate } from "../utils/dueDate";
+
+function dueIn(days: number): string {
+  return toISODate(addDays(todayDate(), days));
+}
 
 export const SAMPLE_TASKS: Task[] = [
   {
@@ -8,6 +13,7 @@ export const SAMPLE_TASKS: Task[] = [
       "Review the first-run screens and tighten language so new users understand how to create and move tasks.",
     status: "backlog",
     priority: "medium",
+    dueDate: dueIn(-3),
   },
   {
     id: "task-search-empty-state",
@@ -24,6 +30,7 @@ export const SAMPLE_TASKS: Task[] = [
       "Confirm create, edit, and delete dialogs expose labels, descriptions, and keyboard focus correctly.",
     status: "backlog",
     priority: "high",
+    dueDate: dueIn(0),
   },
   {
     id: "task-keyboard-docs",
@@ -40,6 +47,7 @@ export const SAMPLE_TASKS: Task[] = [
       "Store the board in localStorage so the workspace survives a refresh without a backend.",
     status: "in-progress",
     priority: "high",
+    dueDate: dueIn(1),
   },
   {
     id: "task-filter-tests",
@@ -48,6 +56,7 @@ export const SAMPLE_TASKS: Task[] = [
       "Add unit tests for text search, priority filters, and combined matching rules.",
     status: "in-progress",
     priority: "high",
+    dueDate: dueIn(5),
   },
   {
     id: "task-column-layout",
@@ -56,6 +65,7 @@ export const SAMPLE_TASKS: Task[] = [
       "Keep columns readable on wide screens and preserve a horizontal board on smaller viewports.",
     status: "in-progress",
     priority: "medium",
+    dueDate: dueIn(14),
   },
   {
     id: "task-dashboard-stats",
@@ -64,6 +74,7 @@ export const SAMPLE_TASKS: Task[] = [
       "Surface totals, column counts, high-priority work, and completion rate above the board.",
     status: "done",
     priority: "medium",
+    dueDate: dueIn(-10),
   },
   {
     id: "task-card-typography",
@@ -80,5 +91,6 @@ export const SAMPLE_TASKS: Task[] = [
       "Prevent cards from stretching the layout and keep column actions reachable on small screens.",
     status: "done",
     priority: "high",
+    dueDate: dueIn(-2),
   },
 ];

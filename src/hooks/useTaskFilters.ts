@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react";
-import type { Task, TaskFilters, TaskPriority } from "../types/task";
+import type { DueDateFilter, Task, TaskFilters, TaskPriority } from "../types/task";
 import { filterTasks } from "../utils/filters";
 
 const DEFAULT_FILTERS: TaskFilters = {
   search: "",
   priority: "all",
+  dueDate: "all",
 };
 
 export function useTaskFilters(tasks: Task[]) {
@@ -23,12 +24,18 @@ export function useTaskFilters(tasks: Task[]) {
     setFilters((current) => ({ ...current, priority }));
   };
 
+  const setDueDate = (dueDate: DueDateFilter) => {
+    setFilters((current) => ({ ...current, dueDate }));
+  };
+
   const resetFilters = () => {
     setFilters(DEFAULT_FILTERS);
   };
 
   const hasActiveFilters =
-    filters.search.trim().length > 0 || filters.priority !== "all";
+    filters.search.trim().length > 0 ||
+    filters.priority !== "all" ||
+    filters.dueDate !== "all";
 
   return {
     filters,
@@ -36,6 +43,7 @@ export function useTaskFilters(tasks: Task[]) {
     hasActiveFilters,
     setSearch,
     setPriority,
+    setDueDate,
     resetFilters,
   };
 }

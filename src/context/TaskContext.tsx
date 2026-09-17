@@ -46,6 +46,9 @@ export function TaskProvider({ children }: { children: ReactNode }) {
     if (typeof nextUpdates.description === "string") {
       nextUpdates.description = nextUpdates.description.trim();
     }
+    if ("dueDate" in nextUpdates) {
+      nextUpdates.dueDate = nextUpdates.dueDate?.trim() || undefined;
+    }
     dispatch({ type: "update", id, updates: nextUpdates });
   }, []);
 

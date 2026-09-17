@@ -20,6 +20,7 @@ function Workspace() {
     hasActiveFilters,
     setSearch,
     setPriority,
+    setDueDate,
     resetFilters,
   } = useTaskFilters(tasks);
   const stats = useMemo(() => getTaskStats(tasks), [tasks]);
@@ -74,6 +75,7 @@ function Workspace() {
           filters={filters}
           onSearchChange={setSearch}
           onPriorityChange={setPriority}
+          onDueDateChange={setDueDate}
           onReset={resetFilters}
           hasActiveFilters={hasActiveFilters}
         />

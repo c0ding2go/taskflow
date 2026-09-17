@@ -9,6 +9,7 @@ const seed: Task[] = [
     description: "Write the first pass",
     status: "backlog",
     priority: "medium",
+    dueDate: "2026-09-20",
   },
 ];
 
@@ -31,6 +32,36 @@ describe("createTask", () => {
       status: "backlog",
       priority: "high",
     });
+  });
+
+  it("keeps a valid due date on a new task", () => {
+    expect(
+      createTask(
+        {
+          title: "Ship reminder",
+          description: "",
+          status: "in-progress",
+          priority: "medium",
+          dueDate: "2026-09-17",
+        },
+        "dated",
+      ).dueDate,
+    ).toBe("2026-09-17");
+  });
+
+  it("omits empty or invalid due dates", () => {
+    expect(
+      createTask(
+        {
+          title: "Undated",
+          description: "",
+          status: "backlog",
+          priority: "low",
+          dueDate: "  ",
+        },
+        "undated",
+      ).dueDate,
+    ).toBeUndefined();
   });
 });
 
@@ -61,7 +92,24 @@ describe("taskReducer", () => {
       title: "Draft final copy",
       description: "Write the first pass",
       priority: "high",
+      dueDate: "2026-09-20",
     });
+  });
+
+  it("sets and clears a due date during an update", () => {
+    const dated = taskReducer(seed, {
+      type: "update",
+      id: "alpha",
+      updates: { dueDate: "2026-09-22" },
+    });
+    expect(dated[0]?.dueDate).toBe("2026-09-22");
+
+    const cleared = taskReducer(dated, {
+      type: "update",
+      id: "alpha",
+      updates: { dueDate: undefined },
+    });
+    expect(cleared[0]?.dueDate).toBeUndefined();
   });
 
   it("does not mutate unrelated tasks during an update", () => {

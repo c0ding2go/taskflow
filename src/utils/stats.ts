@@ -1,4 +1,5 @@
 import type { Task, TaskPriority, TaskStats, TaskStatus } from "../types/task";
+import { countOverdueTasks } from "./dueDate";
 
 const EMPTY_STATUS_COUNTS: Record<TaskStatus, number> = {
   backlog: 0,
@@ -12,7 +13,7 @@ const EMPTY_PRIORITY_COUNTS: Record<TaskPriority, number> = {
   high: 0,
 };
 
-export function getTaskStats(tasks: Task[]): TaskStats {
+export function getTaskStats(tasks: Task[], now = new Date()): TaskStats {
   const byStatus: Record<TaskStatus, number> = { ...EMPTY_STATUS_COUNTS };
   const byPriority: Record<TaskPriority, number> = { ...EMPTY_PRIORITY_COUNTS };
 
@@ -29,5 +30,6 @@ export function getTaskStats(tasks: Task[]): TaskStats {
     byStatus,
     byPriority,
     completionRate,
+    overdue: countOverdueTasks(tasks, now),
   };
 }
