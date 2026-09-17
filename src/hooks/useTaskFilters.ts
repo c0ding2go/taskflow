@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import type { DueDateFilter, Task, TaskFilters, TaskPriority } from "../types/task";
+import { parseISODate } from "../utils/dueDate";
 import { filterTasks } from "../utils/filters";
+import { useLocalCalendarDay } from "./useLocalCalendarDay";
 
 const DEFAULT_FILTERS: TaskFilters = {
   search: "",
@@ -10,10 +12,12 @@ const DEFAULT_FILTERS: TaskFilters = {
 
 export function useTaskFilters(tasks: Task[]) {
   const [filters, setFilters] = useState<TaskFilters>(DEFAULT_FILTERS);
+  const today = useLocalCalendarDay();
+  const now = useMemo(() => parseISODate(today) ?? new Date(), [today]);
 
   const visibleTasks = useMemo(
-    () => filterTasks(tasks, filters),
-    [tasks, filters],
+    () => filterTasks(tasks, filters, now),
+    [tasks, filters, now],
   );
 
   const setSearch = (search: string) => {
@@ -41,6 +45,7 @@ export function useTaskFilters(tasks: Task[]) {
     filters,
     visibleTasks,
     hasActiveFilters,
+    now,
     setSearch,
     setPriority,
     setDueDate,

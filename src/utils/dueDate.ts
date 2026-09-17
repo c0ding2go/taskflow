@@ -18,6 +18,11 @@ export function addDays(date: Date, days: number): Date {
   return next;
 }
 
+export function msUntilNextLocalMidnight(now = new Date()): number {
+  const nextMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  return Math.max(nextMidnight.getTime() - now.getTime(), 1);
+}
+
 export function toISODate(date: Date): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");

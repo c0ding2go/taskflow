@@ -10,6 +10,7 @@ import {
   isDueToday,
   isTaskOverdue,
   matchesDueDateFilter,
+  msUntilNextLocalMidnight,
   normalizeDueDate,
   parseISODate,
   toISODate,
@@ -80,6 +81,11 @@ describe("week and day helpers", () => {
     const source = new Date(2026, 8, 17);
     expect(addDays(source, 3)).toEqual(new Date(2026, 8, 20));
     expect(source).toEqual(new Date(2026, 8, 17));
+  });
+
+  it("measures milliseconds until the next local midnight", () => {
+    expect(msUntilNextLocalMidnight(new Date(2026, 8, 17, 23, 59, 0))).toBe(60_000);
+    expect(msUntilNextLocalMidnight(new Date(2026, 8, 17, 0, 0, 0))).toBe(86_400_000);
   });
 });
 
