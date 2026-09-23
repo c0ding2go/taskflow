@@ -19,6 +19,8 @@ export interface TaskFilters {
   dueDate: DueDateFilter;
 }
 
+export type TaskSort = "board" | "due-date";
+
 export interface ColumnDefinition {
   id: TaskStatus;
   title: string;

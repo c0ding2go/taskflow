@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
-import type { DueDateFilter, Task, TaskFilters, TaskPriority } from "../types/task";
+import type { DueDateFilter, Task, TaskFilters, TaskPriority, TaskSort } from "../types/task";
 import { parseISODate } from "../utils/dueDate";
 import { filterTasks } from "../utils/filters";
+import { sortTasks } from "../utils/sort";
 import { useLocalCalendarDay } from "./useLocalCalendarDay";
 
 const DEFAULT_FILTERS: TaskFilters = {
@@ -12,12 +13,13 @@ const DEFAULT_FILTERS: TaskFilters = {
 
 export function useTaskFilters(tasks: Task[]) {
   const [filters, setFilters] = useState<TaskFilters>(DEFAULT_FILTERS);
+  const [sort, setSort] = useState<TaskSort>("board");
   const today = useLocalCalendarDay();
   const now = useMemo(() => parseISODate(today) ?? new Date(), [today]);
 
   const visibleTasks = useMemo(
-    () => filterTasks(tasks, filters, now),
-    [tasks, filters, now],
+    () => sortTasks(filterTasks(tasks, filters, now), sort),
+    [tasks, filters, now, sort],
   );
 
   const setSearch = (search: string) => {
@@ -43,12 +45,14 @@ export function useTaskFilters(tasks: Task[]) {
 
   return {
     filters,
+    sort,
     visibleTasks,
     hasActiveFilters,
     now,
     setSearch,
     setPriority,
     setDueDate,
+    setSort,
     resetFilters,
   };
 }

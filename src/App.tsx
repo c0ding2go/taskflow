@@ -18,9 +18,11 @@ function Workspace() {
     filters,
     visibleTasks,
     hasActiveFilters,
+    sort,
     setSearch,
     setPriority,
     setDueDate,
+    setSort,
     resetFilters,
     now,
   } = useTaskFilters(tasks);
@@ -74,9 +76,11 @@ function Workspace() {
         <StatsBar stats={stats} visibleCount={visibleTasks.length} filters={filters} />
         <SearchAndFilters
           filters={filters}
+          sort={sort}
           onSearchChange={setSearch}
           onPriorityChange={setPriority}
           onDueDateChange={setDueDate}
+          onSortChange={setSort}
           onReset={resetFilters}
           hasActiveFilters={hasActiveFilters}
         />

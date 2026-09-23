@@ -1,20 +1,24 @@
 import { Search } from "lucide-react";
-import type { DueDateFilter, TaskFilters, TaskPriority } from "../types/task";
+import type { DueDateFilter, TaskFilters, TaskPriority, TaskSort } from "../types/task";
 
 interface SearchAndFiltersProps {
   filters: TaskFilters;
+  sort: TaskSort;
   onSearchChange: (value: string) => void;
   onPriorityChange: (value: TaskPriority | "all") => void;
   onDueDateChange: (value: DueDateFilter) => void;
+  onSortChange: (value: TaskSort) => void;
   onReset: () => void;
   hasActiveFilters: boolean;
 }
 
 export function SearchAndFilters({
   filters,
+  sort,
   onSearchChange,
   onPriorityChange,
   onDueDateChange,
+  onSortChange,
   onReset,
   hasActiveFilters,
 }: SearchAndFiltersProps) {
@@ -63,6 +67,17 @@ export function SearchAndFilters({
           <option value="today">Due today</option>
           <option value="this-week">Due this week</option>
           <option value="none">No due date</option>
+        </select>
+      </div>
+      <div className="filters__control">
+        <label htmlFor="task-sort">Sort</label>
+        <select
+          id="task-sort"
+          value={sort}
+          onChange={(event) => onSortChange(event.target.value as TaskSort)}
+        >
+          <option value="board">Board order</option>
+          <option value="due-date">Due date</option>
         </select>
       </div>
       {hasActiveFilters ? (
