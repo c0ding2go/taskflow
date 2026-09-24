@@ -4,6 +4,7 @@ interface HeaderProps {
   onCreateTask: () => void;
 }
 
+/** App header with branding and the primary "New task" action. */
 export function Header({ onCreateTask }: HeaderProps) {
   return (
     <header className="app-header">

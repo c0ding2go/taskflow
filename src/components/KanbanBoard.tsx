@@ -11,6 +11,7 @@ interface KanbanBoardProps {
   onMove: (task: Task, direction: -1 | 1) => void;
 }
 
+/** Lays out one {@link Column} per status, filtering tasks into each. */
 export function KanbanBoard({
   tasks,
   isFiltered,

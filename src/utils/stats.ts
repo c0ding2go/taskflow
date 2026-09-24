@@ -13,6 +13,7 @@ const EMPTY_PRIORITY_COUNTS: Record<TaskPriority, number> = {
   high: 0,
 };
 
+/** Computes aggregate statistics (counts, completion rate, overdue) for a task list. */
 export function getTaskStats(tasks: Task[], now = new Date()): TaskStats {
   const byStatus: Record<TaskStatus, number> = { ...EMPTY_STATUS_COUNTS };
   const byPriority: Record<TaskPriority, number> = { ...EMPTY_PRIORITY_COUNTS };

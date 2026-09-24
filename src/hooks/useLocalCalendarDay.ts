@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { msUntilNextLocalMidnight, toISODate } from "../utils/dueDate";
 
+/** Tracks today's ISO date, updating at local midnight and on tab refocus. */
 export function useLocalCalendarDay() {
   const [day, setDay] = useState(() => toISODate(new Date()));
 

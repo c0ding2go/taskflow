@@ -23,10 +23,12 @@ interface TaskContextValue {
 
 const TaskContext = createContext<TaskContextValue | null>(null);
 
+/** Loads persisted tasks, falling back to the bundled sample tasks. */
 function getInitialTasks(): Task[] {
   return loadTasks() ?? SAMPLE_TASKS;
 }
 
+/** Provides task state and CRUD/move actions to descendants, persisting to storage. */
 export function TaskProvider({ children }: { children: ReactNode }) {
   const [tasks, dispatch] = useReducer(taskReducer, undefined, getInitialTasks);
 
@@ -74,6 +76,7 @@ export function TaskProvider({ children }: { children: ReactNode }) {
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;
 }
 
+/** Accesses the task context; throws if used outside a {@link TaskProvider}. */
 export function useTasks(): TaskContextValue {
   const context = useContext(TaskContext);
   if (!context) {

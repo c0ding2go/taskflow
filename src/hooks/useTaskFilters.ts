@@ -10,6 +10,7 @@ const DEFAULT_FILTERS: TaskFilters = {
   dueDate: "all",
 };
 
+/** Manages search/priority/due-date filter state and derives visible tasks. */
 export function useTaskFilters(tasks: Task[]) {
   const [filters, setFilters] = useState<TaskFilters>(DEFAULT_FILTERS);
   const today = useLocalCalendarDay();

@@ -12,6 +12,7 @@ import { useTasks } from "./hooks/useTasks";
 import type { Task, TaskDraft, TaskStatus } from "./types/task";
 import { getTaskStats } from "./utils/stats";
 
+/** Renders the task board workspace: stats, filters, columns, and modals. */
 function Workspace() {
   const { tasks, addTask, updateTask, deleteTask, moveTask } = useTasks();
   const {
@@ -119,6 +120,7 @@ function Workspace() {
   );
 }
 
+/** Root application component that wraps the workspace in the task provider. */
 export default function App() {
   return (
     <TaskProvider>

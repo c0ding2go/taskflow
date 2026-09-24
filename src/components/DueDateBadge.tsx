@@ -6,6 +6,7 @@ interface DueDateBadgeProps {
   task: Task;
 }
 
+/** Shows a task's due date label, styled by overdue/due-soon urgency. */
 export function DueDateBadge({ task }: DueDateBadgeProps) {
   const label = dueDateLabel(task);
   if (!label || !task.dueDate) {

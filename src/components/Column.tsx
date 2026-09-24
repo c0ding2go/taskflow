@@ -13,6 +13,7 @@ interface ColumnProps {
   onMove: (task: Task, direction: -1 | 1) => void;
 }
 
+/** Renders a single board column with its header, task cards, and empty state. */
 export function Column({
   column,
   tasks,

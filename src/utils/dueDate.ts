@@ -8,21 +8,25 @@ export const DUE_SOON_DAYS = 2;
 const ISO_DATE = /^(\d{4})-(\d{2})-(\d{2})$/;
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
+/** Returns `now` truncated to a local midnight `Date`, dropping the time of day. */
 export function todayDate(now = new Date()): Date {
   return new Date(now.getFullYear(), now.getMonth(), now.getDate());
 }
 
+/** Returns a new local-midnight `Date` offset from `date` by `days` calendar days. */
 export function addDays(date: Date, days: number): Date {
   const next = todayDate(date);
   next.setDate(next.getDate() + days);
   return next;
 }
 
+/** Milliseconds remaining until the next local midnight after `now`. */
 export function msUntilNextLocalMidnight(now = new Date()): number {
   const nextMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
   return Math.max(nextMidnight.getTime() - now.getTime(), 1);
 }
 
+/** Formats a `Date` as a `YYYY-MM-DD` string in local time. */
 export function toISODate(date: Date): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -30,6 +34,7 @@ export function toISODate(date: Date): string {
   return `${year}-${month}-${day}`;
 }
 
+/** Parses a `YYYY-MM-DD` string into a local `Date`, or null if invalid. */
 export function parseISODate(value: string): Date | null {
   const match = ISO_DATE.exec(value);
   if (!match) {
@@ -52,6 +57,7 @@ export function parseISODate(value: string): Date | null {
   return date;
 }
 
+/** Trims and validates a due date string, returning undefined if empty or invalid. */
 export function normalizeDueDate(value: string | undefined): string | undefined {
   if (!value) {
     return undefined;
@@ -65,6 +71,7 @@ export function normalizeDueDate(value: string | undefined): string | undefined 
   return trimmed;
 }
 
+/** Returns the start (Monday) and end (Sunday) dates of the ISO week containing `now`. */
 export function getISOWeekRange(now = new Date()): { start: Date; end: Date } {
   const today = todayDate(now);
   const isoDay = today.getDay() === 0 ? 7 : today.getDay();
@@ -73,10 +80,12 @@ export function getISOWeekRange(now = new Date()): { start: Date; end: Date } {
   return { start, end };
 }
 
+/** Number of calendar days between `due` and today (`now`), positive if in the future. */
 function calendarDaysFromToday(due: Date, now = new Date()): number {
   return Math.round((due.getTime() - todayDate(now).getTime()) / MS_PER_DAY);
 }
 
+/** Returns true if the task has a due date in the past and is not done. */
 export function isTaskOverdue(
   task: Pick<Task, "dueDate" | "status">,
   now = new Date(),
@@ -89,6 +98,7 @@ export function isTaskOverdue(
   return due !== null && calendarDaysFromToday(due, now) < 0;
 }
 
+/** Returns true if the task's due date falls on today's calendar day. */
 export function isDueToday(task: Pick<Task, "dueDate">, now = new Date()): boolean {
   if (!task.dueDate) {
     return false;
@@ -98,6 +108,7 @@ export function isDueToday(task: Pick<Task, "dueDate">, now = new Date()): boole
   return due !== null && calendarDaysFromToday(due, now) === 0;
 }
 
+/** Returns true if the task's due date falls within the current ISO week. */
 export function isDueThisWeek(
   task: Pick<Task, "dueDate">,
   now = new Date(),
@@ -115,6 +126,10 @@ export function isDueThisWeek(
   return due.getTime() >= start.getTime() && due.getTime() <= end.getTime();
 }
 
+/**
+ * Classifies how urgent a task's due date is.
+ * @returns "overdue", "due-soon", "upcoming", or null if not applicable.
+ */
 export function getDueDateUrgency(
   task: Pick<Task, "dueDate" | "status">,
   now = new Date(),
@@ -138,6 +153,7 @@ export function getDueDateUrgency(
   return "upcoming";
 }
 
+/** Returns true if the task satisfies the given due-date filter. */
 export function matchesDueDateFilter(
   task: Task,
   filter: DueDateFilter,
@@ -159,6 +175,7 @@ export function matchesDueDateFilter(
   }
 }
 
+/** Formats an ISO due date as "Today", "Tomorrow", "Yesterday", or a short date. */
 export function formatDueDate(value: string, now = new Date()): string {
   const due = parseISODate(value);
   if (!due) {
@@ -184,6 +201,7 @@ export function formatDueDate(value: string, now = new Date()): string {
   });
 }
 
+/** Builds a display label like "Due Today" or "Overdue · Yesterday" for a task. */
 export function dueDateLabel(
   task: Pick<Task, "dueDate" | "status">,
   now = new Date(),
@@ -196,6 +214,7 @@ export function dueDateLabel(
   return getDueDateUrgency(task, now) === "overdue" ? `Overdue · ${when}` : `Due ${when}`;
 }
 
+/** Counts how many of the given tasks are overdue. */
 export function countOverdueTasks(
   tasks: Array<Pick<Task, "dueDate" | "status">>,
   now = new Date(),

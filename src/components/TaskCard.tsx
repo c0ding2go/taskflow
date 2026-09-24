@@ -12,6 +12,7 @@ interface TaskCardProps {
   onMove: (task: Task, direction: -1 | 1) => void;
 }
 
+/** Card showing a single task's details with move, edit, and delete actions. */
 export function TaskCard({ task, onEdit, onDelete, onMove }: TaskCardProps) {
   const previousStatus = getAdjacentStatus(task.status, -1);
   const nextStatus = getAdjacentStatus(task.status, 1);
