@@ -10,6 +10,7 @@ interface SearchAndFiltersProps {
   hasActiveFilters: boolean;
 }
 
+/** Search input and priority/due-date filter controls for the task list. */
 export function SearchAndFilters({
   filters,
   onSearchChange,

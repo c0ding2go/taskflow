@@ -20,6 +20,7 @@ export const COLUMNS: ColumnDefinition[] = [
 
 export const STATUS_ORDER: TaskStatus[] = COLUMNS.map((column) => column.id);
 
+/** Returns the column definition for a status, throwing if it is unknown. */
 export function getColumn(status: TaskStatus): ColumnDefinition {
   const column = COLUMNS.find((item) => item.id === status);
   if (!column) {
@@ -28,6 +29,10 @@ export function getColumn(status: TaskStatus): ColumnDefinition {
   return column;
 }
 
+/**
+ * Returns the status adjacent to `status` in the given direction.
+ * @returns The adjacent status, or null if `status` is at the boundary.
+ */
 export function getAdjacentStatus(
   status: TaskStatus,
   direction: -1 | 1,

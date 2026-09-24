@@ -7,6 +7,7 @@ interface EmptyStateProps {
   action?: ReactNode;
 }
 
+/** Generic placeholder shown when a list has no items to display. */
 export function EmptyState({ title, description, action }: EmptyStateProps) {
   return (
     <div className="empty-state">

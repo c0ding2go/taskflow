@@ -19,6 +19,7 @@ const PRIORITIES: { value: TaskPriority; label: string }[] = [
   { value: "high", label: "High" },
 ];
 
+/** Modal form for creating a new task or editing an existing one. */
 export function TaskModal({
   open,
   task,

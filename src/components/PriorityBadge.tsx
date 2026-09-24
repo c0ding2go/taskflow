@@ -10,6 +10,7 @@ interface PriorityBadgeProps {
   priority: TaskPriority;
 }
 
+/** Small colored badge that labels a task's priority level. */
 export function PriorityBadge({ priority }: PriorityBadgeProps) {
   return (
     <span className={`priority-badge priority-badge--${priority}`}>

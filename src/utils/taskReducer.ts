@@ -7,6 +7,7 @@ export type TaskAction =
   | { type: "delete"; id: string }
   | { type: "move"; id: string; status: TaskStatus };
 
+/** Builds a normalized {@link Task} from a draft and a generated id. */
 export function createTask(draft: TaskDraft, id: string): Task {
   const task: Task = {
     id,
@@ -24,6 +25,7 @@ export function createTask(draft: TaskDraft, id: string): Task {
   return task;
 }
 
+/** Reducer applying add/update/delete/move actions to the task list. */
 export function taskReducer(state: Task[], action: TaskAction): Task[] {
   switch (action.type) {
     case "add":

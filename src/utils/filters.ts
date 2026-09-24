@@ -1,6 +1,7 @@
 import type { Task, TaskFilters } from "../types/task";
 import { matchesDueDateFilter } from "./dueDate";
 
+/** Filters tasks by search text, priority, and due-date criteria. */
 export function filterTasks(
   tasks: Task[],
   filters: TaskFilters,
@@ -19,6 +20,7 @@ export function filterTasks(
   });
 }
 
+/** Returns the count of tasks matching `filters` alongside the total task count. */
 export function countVisibleTasks(
   tasks: Task[],
   filters: TaskFilters,

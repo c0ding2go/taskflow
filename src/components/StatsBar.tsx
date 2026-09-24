@@ -14,6 +14,7 @@ interface StatsBarProps {
   filters: TaskFilters;
 }
 
+/** Displays summary statistics for the workspace's tasks. */
 export function StatsBar({ stats, visibleCount, filters }: StatsBarProps) {
   const isFiltered =
     filters.search.trim().length > 0 ||

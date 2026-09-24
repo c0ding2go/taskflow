@@ -1,6 +1,7 @@
 import type { Task } from "../types/task";
 import { addDays, toISODate, todayDate } from "../utils/dueDate";
 
+/** Returns the ISO date string `days` days from today. */
 function dueIn(days: number): string {
   return toISODate(addDays(todayDate(), days));
 }

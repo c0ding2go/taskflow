@@ -11,6 +11,7 @@ interface ConfirmDialogProps {
   onConfirm: () => void;
 }
 
+/** Modal dialog that asks the user to confirm a destructive action. */
 export function ConfirmDialog({
   open,
   title,
